@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrés | Finanzas & Inversiones</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0e;
+    --bg2: #161614;
+    --bg3: #1e1e1b;
+    --border: #2a2a26;
+    --accent: #c9a84c;
+    --accent2: #e8c87a;
+    --text: #e8e6df;
+    --muted: #8a8880;
+    --green: #4caf82;
+    --yellow: #d4a820;
+    --red: #e8754a;
+    --card-bg: #181816;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.4;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .hero { padding: 72px 0 48px; border-bottom: 1px solid var(--border); animation: fadeUp 0.8s ease both; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 56px); font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 24px;
+  }
+  h1 span { color: var(--accent); font-style: italic; }
+  .hero-bio { font-size: 15.5px; color: #aba9a2; max-width: 580px; line-height: 1.85; margin-bottom: 28px; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+  .quote-block {
+    margin: 48px 0; padding: 30px 34px;
+    border-left: 3px solid var(--accent); background: var(--bg2);
+    border-radius: 0 12px 12px 0; animation: fadeUp 0.8s 0.12s ease both;
+  }
+  .quote-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16.5px; color: var(--text); line-height: 1.75; margin-bottom: 10px; }
+  .quote-sub { font-size: 12.5px; color: var(--muted); }
+
+  .disclaimer {
+    background: #1a1a0f; border: 1px solid #3a3a1a; border-radius: 10px;
+    padding: 14px 18px; font-size: 12.5px; color: #9a9a68;
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 52px; animation: fadeUp 0.8s 0.18s ease both;
+  }
+  .disclaimer-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+
+  .section { margin-bottom: 56px; animation: fadeUp 0.7s 0.22s ease both; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 26px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+  }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 25px; font-weight: 700; color: var(--text); }
+  .section-badge {
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.15em;
+    text-transform: uppercase; background: var(--bg3); border: 1px solid var(--border);
+    color: var(--muted); padding: 3px 10px; border-radius: 20px; margin-left: auto;
+  }
+
+  /* PROFILE BUCKETS */
+  .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .profile-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 13px; padding: 20px;
+    transition: all 0.2s ease; position: relative; overflow: hidden;
+  }
+  .profile-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 13px 13px 0 0; }
+  .profile-card.conservative::before { background: var(--green); }
+  .profile-card.moderate::before     { background: var(--yellow); }
+  .profile-card.growth::before       { background: var(--red); }
+  .profile-card:hover { transform: translateY(-2px); border-color: rgba(201,168,76,0.3); }
+  .profile-dot { width: 9px; height: 9px; border-radius: 50%; margin-bottom: 10px; }
+  .conservative .profile-dot { background: var(--green); }
+  .moderate .profile-dot     { background: var(--yellow); }
+  .growth .profile-dot       { background: var(--red); }
+  .profile-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .profile-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 7px; line-height: 1.4; }
+  .profile-platforms { font-size: 11.5px; color: var(--muted); line-height: 1.65; }
+
+  /* PLATFORM CARDS */
+  .platforms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  .platform-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 22px 20px;
+    transition: all 0.25s ease;
+    position: relative; overflow: hidden;
+  }
+  .platform-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; bottom: 0; width: 3px;
+    border-radius: 16px 0 0 16px;
+  }
+  .platform-card.risk-green::before  { background: linear-gradient(180deg, var(--green), rgba(76,175,130,0.15)); }
+  .platform-card.risk-yellow::before { background: linear-gradient(180deg, var(--yellow), rgba(212,168,32,0.15)); }
+  .platform-card.risk-red::before    { background: linear-gradient(180deg, var(--red), rgba(232,117,74,0.15)); }
+
+  .platform-card.risk-green:hover  { border-color: rgba(76,175,130,0.32);  transform: translateY(-3px); box-shadow: 0 10px 36px rgba(76,175,130,0.06); }
+  .platform-card.risk-yellow:hover { border-color: rgba(212,168,32,0.32);  transform: translateY(-3px); box-shadow: 0 10px 36px rgba(212,168,32,0.06); }
+  .platform-card.risk-red:hover    { border-color: rgba(232,117,74,0.32);  transform: translateY(-3px); box-shadow: 0 10px 36px rgba(232,117,74,0.06); }
+
+  .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding-left: 8px; }
+
+  .platform-logo {
+    width: 50px; height: 50px; border-radius: 13px;
+    background: #ffffff; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .platform-logo img { width: 40px; height: 40px; object-fit: contain; display: block; }
+  .logo-fallback { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; line-height: 1; }
+
+  .card-header-info { flex: 1; min-width: 0; }
+  .platform-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 7px; flex-wrap: wrap; line-height: 1.2;
+  }
+  .risk-badge {
+    font-family: 'DM Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 20px; white-space: nowrap;
+  }
+  .risk-badge.green  { background: rgba(76,175,130,0.1);  color: var(--green);  border: 1px solid rgba(76,175,130,0.22); }
+  .risk-badge.yellow { background: rgba(212,168,32,0.1);  color: var(--yellow); border: 1px solid rgba(212,168,32,0.22); }
+  .risk-badge.red    { background: rgba(232,117,74,0.1);  color: var(--red);    border: 1px solid rgba(232,117,74,0.22); }
+
+  .featured-badge {
+    font-size: 8.5px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(201,168,76,0.1); color: var(--accent);
+    border: 1px solid rgba(201,168,76,0.22); border-radius: 4px; padding: 2px 6px;
+  }
+  .platform-category { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+  .platform-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; padding-left: 8px; }
+  .tag-pill {
+    font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--muted); padding: 2px 8px; border-radius: 20px;
+  }
+
+  .platform-why {
+    font-size: 13px; color: #9a9890; line-height: 1.65;
+    border-top: 1px solid var(--border); padding: 12px 8px 12px;
+    font-style: italic; margin-bottom: 12px;
+  }
+  .platform-bonus {
+    background: var(--bg3); border-radius: 8px; padding: 10px 12px;
+    margin: 0 0 10px 8px; font-size: 12.5px; color: var(--text);
+  }
+  .bonus-label { color: var(--muted); font-size: 10px; margin-bottom: 2px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+  .code-block {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    margin: 0 0 6px 8px;
+  }
+  .code-label { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .code-value { font-family: 'DM Mono', monospace; font-size: 13.5px; font-weight: 500; color: var(--accent2); letter-spacing: 0.04em; }
+  .copy-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 6px; padding: 3px 9px; font-size: 10px;
+    font-family: 'DM Mono', monospace; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+  /* TOOLS */
+  .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .tool-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 13px; padding: 20px; transition: all 0.2s;
+  }
+  .tool-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+  .tool-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .tool-logo {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: #ffffff; border: 1px solid rgba(0,0,0,0.08);
+    display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;
+  }
+  .tool-logo img { width: 32px; height: 32px; object-fit: contain; }
+  .tool-name { font-size: 16px; font-weight: 600; color: var(--text); }
+  .tool-desc { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; line-height: 1.55; }
+
+  /* SOCIAL */
+  .social-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+  .social-link {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 16px;
+    text-decoration: none; color: var(--text); font-size: 13.5px; transition: all 0.2s;
+  }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CONTACT */
+  .contact-block {
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 36px; text-align: center; margin-top: 48px;
+  }
+  .contact-block h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+  .contact-block p { font-size: 14px; color: var(--muted); margin-bottom: 20px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  .contact-email {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #0f0f0e;
+    font-weight: 600; font-size: 14px; padding: 12px 26px;
+    border-radius: 8px; text-decoration: none; transition: all 0.2s;
+  }
+  .contact-email:hover { background: var(--accent2); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 620px) {
+    .platforms-grid, .tools-grid, .profile-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .nav-flag {
+    position: fixed; top: 24px; right: 24px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 50%; width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-flag">🇨🇴</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Explorador Financiero · Medellín, Colombia</div>
+    <h1>Andrés<br><span>Finanzas & Inversiones</span></h1>
+    <p class="hero-bio">
+      Llevo varios años trabajando en análisis financiero y contabilidad en sectores como finanzas, bienes raíces, consultoría y servicios profesionales. Esta página nació porque vi que muchas personas cercanas a mí no sabían por dónde empezar a invertir — y yo sí. Las plataformas que encuentras aquí son las que yo mismo uso y he investigado. Mi objetivo es ayudarte a desarrollar hábitos de inversión inteligentes y simplificar tus finanzas.
+    </p>
+    <div class="hero-meta">
+      <span>📍 Medellín, Colombia</span>
+      <span>💼 Análisis Financiero & Contabilidad</span>
+      <span>🏢 Finanzas · Bienes Raíces · Consultoría</span>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-block">
+    <p class="quote-text">"El deporte enseña constancia, la espiritualidad da claridad, el trabajo impulsa resultados y las finanzas reflejan decisiones."</p>
+    <p class="quote-sub">El verdadero éxito surge cuando esas cuatro dimensiones se alinean hacia un mismo propósito: el crecimiento integral.</p>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <span class="disclaimer-icon">⚠️</span>
+    <span><strong>Aviso importante:</strong> Esta página no constituye asesoría de inversión. Cada persona debe evaluar su propio perfil de riesgo antes de invertir. Las plataformas aquí listadas son las que yo uso personalmente — comparto mi experiencia, no recomendaciones financieras formales. Invertir implica riesgos, incluyendo la posible pérdida del capital.</span>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">¿Cuál es tu perfil?</h2>
+      <span class="section-badge">Elige tu punto de partida</span>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-card conservative">
+        <div class="profile-dot"></div>
+        <div class="profile-label">🟢 Conservador</div>
+        <div class="profile-title">Quiero empezar con algo seguro y sencillo</div>
+        <div class="profile-platforms">Tyba · Littio (ahorro en dólares)</div>
+      </div>
+      <div class="profile-card moderate">
+        <div class="profile-dot"></div>
+        <div class="profile-label">🟡 Moderado</div>
+        <div class="profile-title">Quiero diversificar con ETFs y copy trading</div>
+        <div class="profile-platforms">Insights · eToro</div>
+      </div>
+      <div class="profile-card growth">
+        <div class="profile-dot"></div>
+        <div class="profile-label">🔴 Crecimiento</div>
+        <div class="profile-title">Quiero acciones y activos de alto potencial</div>
+        <div class="profile-platforms">Trii · Hapi · XTB · Binance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATAFORMAS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Plataformas que Uso</h2>
+      <span class="section-badge">Con código de referido</span>
+    </div>
+    <div class="platforms-grid">
+
+      <!-- TRII 🔴 -->
+      <div class="platform-card risk-red">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/trii.com.co" alt="Trii logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#1a7c3e\'>T</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Trii
+              <span class="risk-badge red">🔴 Crecimiento</span>
+              <span class="featured-badge">⭐ Favorita</span>
+            </div>
+            <div class="platform-category">Acciones Colombianas · BVC</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🇨🇴 Colombia</span>
+          <span class="tag-pill">Acciones BVC</span>
+          <span class="tag-pill">Desde $5.000 COP</span>
+        </div>
+        <div class="platform-why">"La uso para acciones colombianas. Es la más fácil de abrir y tiene las comisiones más bajas del mercado local. Puedes empezar desde $5,000 COP — el precio de un café."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Bono de bienvenida</div>
+          <div>$5,000 COP en tu primera inversión</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Código de referido</div><div class="code-value">aa_4m59</div></div>
+          <button class="copy-btn" onclick="copyCode(this,'aa_4m59')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- HAPI 🔴 -->
+      <div class="platform-card risk-red">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/hapi.com" alt="Hapi logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#1a1a9e\'>H</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Hapi
+              <span class="risk-badge red">🔴 Crecimiento</span>
+            </div>
+            <div class="platform-category">Acciones Internacionales · Criptomonedas</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🌎 USA Market</span>
+          <span class="tag-pill">Sin comisiones</span>
+          <span class="tag-pill">Cripto</span>
+        </div>
+        <div class="platform-why">"Mi plataforma para el mercado americano. Sin comisiones y sin monto mínimo. Perfecta para comprar fracciones de acciones del S&P 500 desde Colombia."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Bono de bienvenida</div>
+          <div>$10 USD al abrir tu cuenta</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Código de referido</div><div class="code-value">ANDALA21</div></div>
+          <button class="copy-btn" onclick="copyCode(this,'ANDALA21')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- XTB 🔴 -->
+      <div class="platform-card risk-red">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/xtb.com" alt="XTB logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#e60000\'>X</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              XTB
+              <span class="risk-badge red">🔴 Crecimiento</span>
+            </div>
+            <div class="platform-category">Acciones Internacionales · ETFs · Sin comisión</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🌐 Internacional</span>
+          <span class="tag-pill">Regulado UE</span>
+          <span class="tag-pill">Miles de activos</span>
+        </div>
+        <div class="platform-why">"La mejor plataforma para invertir en acciones internacionales sin comisiones. Regulada en Europa, acceso a miles de activos e interfaz profesional. Ideal para un portafolio global serio."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Beneficio</div>
+          <div>$5 USD para suscripción premium</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Acceso</div><div class="code-value">Disponible en Colombia</div></div>
+        </div>
+      </div>
+
+      <!-- BINANCE 🔴 -->
+      <div class="platform-card risk-red">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/binance.com" alt="Binance logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#F0B90B\'>₿</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Binance
+              <span class="risk-badge red">🔴 Crecimiento</span>
+            </div>
+            <div class="platform-category">Criptomonedas · Exchange #1 Mundial</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">₿ Cripto</span>
+          <span class="tag-pill">Spot · Staking</span>
+          <span class="tag-pill">Global</span>
+        </div>
+        <div class="platform-why">"Para exposición a criptomonedas con las comisiones más bajas. Si eres nuevo en cripto, empieza solo con spot antes de explorar staking o futuros."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Beneficio</div>
+          <div>50% descuento en comisiones · Hasta $1,000 en reembolsos</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div class="code-block">
+            <div><div class="code-label">Código 50% descuento</div><div class="code-value">94547225</div></div>
+            <button class="copy-btn" onclick="copyCode(this,'94547225')">Copiar</button>
+          </div>
+          <div class="code-block">
+            <div><div class="code-label">Código reembolsos</div><div class="code-value">CPA_00A0363UER</div></div>
+            <button class="copy-btn" onclick="copyCode(this,'CPA_00A0363UER')">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHTS 🟡 -->
+      <div class="platform-card risk-yellow">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/insightsinvestment.com" alt="Insights logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#0050FF\'>I</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Insights
+              <span class="risk-badge yellow">🟡 Moderado</span>
+            </div>
+            <div class="platform-category">ETFs Temáticos · Fondos Internacionales</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🇺🇸 SIPC Protegido</span>
+          <span class="tag-pill">ETFs</span>
+          <span class="tag-pill">100% Digital</span>
+        </div>
+        <div class="platform-why">"Regulada y asegurada por el SIPC de EE.UU. La uso para ETFs temáticos — tecnología, energía limpia, salud. Ideal para diversificar con una sola inversión."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Bono de bienvenida</div>
+          <div>$10 USD al invertir</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Código de referido</div><div class="code-value">AA9737</div></div>
+          <button class="copy-btn" onclick="copyCode(this,'AA9737')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- ETORO 🟡 -->
+      <div class="platform-card risk-yellow">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/etoro.com" alt="eToro logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#6EC834\'>e</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              eToro
+              <span class="risk-badge yellow">🟡 Moderado</span>
+            </div>
+            <div class="platform-category">Acciones · ETFs · Copy Trading</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🌐 Internacional</span>
+          <span class="tag-pill">Copy Trading</span>
+          <span class="tag-pill">Desde $100 USD</span>
+        </div>
+        <div class="platform-why">"Interesante por el copy trading — copias automáticamente a traders con track record comprobado. Útil si quieres mercados internacionales sin dedicarle mucho tiempo al análisis."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Mínimo de inversión</div>
+          <div>Desde $100 USD</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Acceso</div><div class="code-value">Disponible en Colombia</div></div>
+        </div>
+      </div>
+
+      <!-- TYBA 🟢 -->
+      <div class="platform-card risk-green">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/tyba.com.co" alt="Tyba logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#00B2A9\'>T</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Tyba
+              <span class="risk-badge green">🟢 Conservador</span>
+            </div>
+            <div class="platform-category">Fondos de Inversión Colectiva · Powered by BCP</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">🇨🇴 Colombia</span>
+          <span class="tag-pill">Fondos Colectivos</span>
+          <span class="tag-pill">Bajo riesgo</span>
+        </div>
+        <div class="platform-why">"Buena opción si quieres algo más conservador que acciones individuales. Fondos de inversión colectiva fáciles de entender, para diferentes perfiles de riesgo."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Bono de bienvenida</div>
+          <div>$10,000 Tybs en tu primera inversión</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Código de referido</div><div class="code-value">AAL985239</div></div>
+          <button class="copy-btn" onclick="copyCode(this,'AAL985239')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- LITTIO 🟢 -->
+      <div class="platform-card risk-green">
+        <div class="card-header">
+          <div class="platform-logo">
+            <img src="https://logo.clearbit.com/littio.com" alt="Littio logo"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#7B2FBE\'>L</span>'">
+          </div>
+          <div class="card-header-info">
+            <div class="platform-name">
+              Littio
+              <span class="risk-badge green">🟢 Conservador</span>
+            </div>
+            <div class="platform-category">Ahorro en Dólares Digitales · Tarjeta Internacional</div>
+          </div>
+        </div>
+        <div class="platform-tags">
+          <span class="tag-pill">💵 USDC</span>
+          <span class="tag-pill">Dolarización</span>
+          <span class="tag-pill">Tarjeta int'l</span>
+        </div>
+        <div class="platform-why">"La uso para protegerme de la devaluación del peso. Dólares digitales (USDC) con tarjeta para gastos en el exterior. Para quienes quieren dolarizar sus ahorros sin complicaciones."</div>
+        <div class="platform-bonus">
+          <div class="bonus-label">Bono de bienvenida</div>
+          <div>$10 USDC al depositar</div>
+        </div>
+        <div class="code-block">
+          <div><div class="code-label">Código de referido</div><div class="code-value">XMGC</div></div>
+          <button class="copy-btn" onclick="copyCode(this,'XMGC')">Copiar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Herramientas de Análisis</h2>
+      <span class="section-badge">Para ir más profundo</span>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-logo">
+            <img src="https://logo.clearbit.com/finbox.com" alt="Finbox"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-weight:700;color:#1a3cff;font-size:13px\'>FB</span>'">
+          </div>
+          <div class="tool-name">Finbox</div>
+        </div>
+        <div class="tool-desc">Análisis financiero de empresas. La uso para evaluar fundamentales antes de tomar decisiones de inversión.</div>
+        <div class="code-block">
+          <div><div class="code-label">Beneficio</div><div class="code-value" style="font-size:12px;">$5 USD suscripción premium</div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-logo">
+            <img src="https://logo.clearbit.com/tradingview.com" alt="TradingView"
+                 onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-weight:700;color:#2962ff;font-size:12px\'>TV</span>'">
+          </div>
+          <div class="tool-name">TradingView</div>
+        </div>
+        <div class="tool-desc">Análisis técnico y seguimiento de mercados en tiempo real. El plan gratuito es suficiente para monitorear tu portafolio.</div>
+        <div class="code-block">
+          <div><div class="code-label">Costo</div><div class="code-value" style="font-size:12px;">Gratuito (plan básico)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Encuéntrame</h2>
+    </div>
+    <div class="social-grid">
+      <a href="#" class="social-link">📊 Financial Projects</a>
+      <a href="#" class="social-link">in LinkedIn</a>
+      <a href="#" class="social-link">𝕏 Twitter / X</a>
+      <a href="#" class="social-link">🏃 Strava</a>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <h3>¿Tienes alguna pregunta?</h3>
+    <p>Si tienes dudas sobre alguna plataforma, quieres empezar a invertir y no sabes por dónde, o simplemente quieres conversar sobre finanzas — escríbeme. Respondo.</p>
+    <a href="mailto:aalarconfp@gmail.com" class="contact-email">✉️ aalarconfp@gmail.com</a>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn, code) {
+  const fallback = () => {
+    const el = document.createElement('textarea');
+    el.value = code; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
+  };
+  (navigator.clipboard ? navigator.clipboard.writeText(code) : Promise.reject())
+    .catch(fallback)
+    .finally ? null : fallback();
+  btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+}
+</script>
+</body>
+</html>
