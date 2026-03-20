@@ -245,7 +245,7 @@
   .tool-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 11px; margin-bottom: 8px; }
   .tool-block.beneficio .tool-block-label { color: var(--green); }
   .tool-block-label { font-size: 9px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
-  .tool-block-value { font-family: 'DM Mono', monospace; font-size: 11.5px; font-weight: 500; color: var(--text2); }
+  .tool-block-value { font-size: 12px; font-weight: 500; color: var(--text2); }
   .tool-visit-btn {
     display: flex; justify-content: center; align-items: center; gap: 6px;
     background: var(--accent); color: white; border: none; border-radius: 8px;
@@ -378,7 +378,7 @@
         <div class="profile-dot"></div>
         <div class="profile-label">Conservador</div>
         <div class="profile-title">Quiero empezar con algo seguro y sencillo</div>
-        <div class="profile-platforms">Tyba · Littio (ahorro en dólares)</div>
+        <div class="profile-platforms">Tyba · Littio · RappiCuenta</div>
       </div>
       <div class="profile-card moderate">
         <div class="profile-dot"></div>
@@ -541,6 +541,23 @@
         <a href="https://www.littio.com" target="_blank" rel="noopener noreferrer" class="visit-btn">Abrir cuenta →</a>
       </div>
 
+      <!-- RAPPICUENTA -->
+      <div class="platform-card risk-green">
+        <div class="card-header">
+          <div class="platform-logo"><img src="https://logo.clearbit.com/rappipay.co" alt="RappiPay" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'logo-fallback\' style=\'color:#FF441A\'>R</span>'"></div>
+          <div class="card-header-info">
+            <div class="platform-name">RappiCuenta <span class="risk-badge green">🟢 Conservador</span></div>
+            <div class="platform-category">Cuenta de Ahorros · RappiPay</div>
+          </div>
+        </div>
+        <div class="platform-tags"><span class="tag-pill">🇨🇴 Colombia</span><span class="tag-pill">Cuenta de Ahorros</span><span class="tag-pill">Sin cuota de manejo</span></div>
+        <div class="platform-why">"Cuenta de ahorros que genera el 9% E.A. en Bolsillos, sin cuota de manejo ni cobros ocultos. Ideal para quienes aún pagan cuota de manejo en su banco actual."</div>
+        <div class="min-invest"><div class="min-invest-label">💰 Monto mínimo recomendado</div>Sin monto mínimo — sin cuota de manejo</div>
+        <div class="platform-bonus"><div class="bonus-label">Bono de bienvenida</div>Hasta $100,000 COP con código de referido</div>
+        <div class="code-block"><div><div class="code-label">Código de referido</div><div class="code-value">andres442121</div></div><button class="copy-btn" onclick="copyCode(this,'andres442121')">Copiar</button></div>
+        <a href="https://www.rappipay.co/rappicuenta/#solicita-tu-rappicuenta" target="_blank" rel="noopener noreferrer" class="visit-btn">Abrir cuenta →</a>
+      </div>
+
     </div>
   </div>
 
@@ -594,7 +611,7 @@
       <a href="https://aalarconfp.github.io/professional-portfolio/" target="_blank" rel="noopener noreferrer" class="social-link">📊 Proyectos Profesionales</a>
       <a href="https://x.com/aalarconfp" target="_blank" rel="noopener noreferrer" class="social-link">𝕏 Twitter / X</a>
       <a href="https://www.strava.com/athletes/122611267" target="_blank" rel="noopener noreferrer" class="social-link">🏃 Strava</a>
-      <a href="mailto:aalarconfp@gmail.com" class="social-link">✉️ aalarconfp@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#e58484898497868a8b8395a58288848c89cb868a88" class="social-link">✉️ <span class="__cf_email__" data-cfemail="b4d5d5d8d5c6d7dbdad2c4f4d3d9d5ddd89ad7dbd9">[email&#160;protected]</span></a>
     </div>
   </div>
 
@@ -605,14 +622,14 @@
       <p>Si tienes dudas sobre alguna plataforma, quieres empezar a invertir y no sabes por dónde, o simplemente quieres conversar sobre finanzas — escríbeme. Respondo.</p>
     </div>
     <div class="contact-actions">
-      <a href="mailto:aalarconfp@gmail.com" class="contact-email-btn">✉️ Enviar correo</a>
+      <a href="/cdn-cgi/l/email-protection#147575787566777b7a7264547379757d783a777b79" class="contact-email-btn">✉️ Enviar correo</a>
       <button class="contact-copy-btn" onclick="copyEmail(this)">📋 Copiar correo</button>
     </div>
   </div>
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function copyCode(btn, code) {
   const fallback = () => { const el = document.createElement('textarea'); el.value = code; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); };
   try { navigator.clipboard.writeText(code).catch(fallback); } catch(e) { fallback(); }
@@ -622,10 +639,4 @@ function copyCode(btn, code) {
 function copyEmail(btn) {
   const email = 'aalarconfp@gmail.com';
   const fallback = () => { const el = document.createElement('textarea'); el.value = email; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); };
-  try { navigator.clipboard.writeText(email).catch(fallback); } catch(e) { fallback(); }
-  btn.textContent = '✓ Correo copiado'; btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = '📋 Copiar correo'; btn.classList.remove('copied'); }, 2500);
-}
-</script>
-</body>
-</html>
+  t
