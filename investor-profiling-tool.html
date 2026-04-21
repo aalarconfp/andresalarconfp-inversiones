@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil de Inversión | Andrés — Finanzas & Inversiones</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8fafc;
+    --bg2: #ffffff;
+    --bg3: #f1f5f9;
+    --border: #e2e8f0;
+    --accent: #1e40af;
+    --accent2: #3b82f6;
+    --accent-light: #dbeafe;
+    --text: #0f172a;
+    --text2: #334155;
+    --muted: #64748b;
+    --green: #059669;
+    --green-light: #d1fae5;
+    --yellow: #d97706;
+    --yellow-light: #fef3c7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 24px rgba(30,64,175,0.11), 0 4px 10px rgba(0,0,0,0.05);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(248,250,252,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    text-decoration: none; display: flex; align-items: center; gap: 10px;
+  }
+  .nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); }
+  .nav-back {
+    font-size: 12px; color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 5px; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-flag {
+    background: white; border: 1px solid var(--border);
+    border-radius: 50%; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; box-shadow: var(--shadow);
+  }
+
+  /* ── SCREEN SYSTEM ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── CONTAINERS ── */
+  .container { max-width: 760px; margin: 0 auto; padding: 0 32px 80px; }
+  .container-wide { max-width: 980px; margin: 0 auto; padding: 0 32px 80px; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+  .fade-up-2 { animation: fadeUp 0.6s 0.1s ease both; }
+  .fade-up-3 { animation: fadeUp 0.6s 0.2s ease both; }
+
+  /* ── WELCOME SCREEN ── */
+  .welcome-hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent2); border-radius: 2px; }
+  h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 18px; }
+  h1 span { color: var(--accent); }
+  .hero-desc { font-size: 15px; color: var(--text2); line-height: 1.8; max-width: 520px; margin-bottom: 32px; }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 36px; }
+  .feature-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 18px;
+    box-shadow: var(--shadow); position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent); border-radius: 12px 12px 0 0;
+  }
+  .feature-num {
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+    color: var(--accent2); margin-bottom: 8px; letter-spacing: 0.05em;
+  }
+  .feature-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .feature-desc { font-size: 11.5px; color: var(--muted); line-height: 1.6; }
+
+  .disclaimer {
+    background: #fffbeb; border: 1px solid #fcd34d; border-radius: 10px;
+    padding: 13px 18px; font-size: 12px; color: #92400e;
+    display: flex; gap: 10px; align-items: flex-start; margin-bottom: 32px;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-size: 13px; font-weight: 700; padding: 12px 28px;
+    border: none; border-radius: 9px; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-primary svg { width: 16px; height: 16px; transition: transform 0.2s; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+
+  /* ── QUESTION SCREEN ── */
+  .q-progress-bar {
+    height: 3px; background: var(--border); width: 100%;
+    position: sticky; top: 56px; z-index: 40;
+  }
+  .q-progress-fill {
+    height: 100%; background: var(--accent2); transition: width 0.5s ease-out;
+  }
+  .q-header {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid var(--border); margin-bottom: 36px;
+  }
+  .q-meta {
+    display: flex; align-items: baseline; gap: 8px; margin-bottom: 20px;
+  }
+  .q-num {
+    font-size: 52px; font-weight: 800; color: var(--accent2);
+    opacity: 0.18; line-height: 1; font-family: 'DM Mono', monospace;
+  }
+  .q-of { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .q-text {
+    font-size: clamp(20px, 3vw, 28px); font-weight: 800;
+    letter-spacing: -0.02em; color: var(--text);
+    animation: fadeUp 0.4s ease both;
+  }
+  .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .option-btn {
+    background: var(--bg2); border: 1.5px solid var(--border);
+    border-radius: 11px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.22s ease;
+    text-align: left; font-family: 'Inter', sans-serif;
+    box-shadow: var(--shadow);
+  }
+  .option-btn:hover { border-color: var(--accent2); background: var(--accent-light); transform: translateX(2px); }
+  .option-btn.selected { border-color: var(--accent); background: var(--accent-light); }
+  .option-radio {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border); display: flex;
+    align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .option-btn.selected .option-radio { border-color: var(--accent); background: var(--accent); }
+  .option-radio-dot {
+    width: 8px; height: 8px; background: white;
+    border-radius: 50%; display: none;
+  }
+  .option-btn.selected .option-radio-dot { display: block; }
+  .option-label { font-size: 14px; font-weight: 500; color: var(--text); }
+
+  .q-footer {
+    border-top: 1px solid var(--border); padding: 20px 0 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .q-footer-hint { font-size: 11.5px; color: var(--muted); }
+  .btn-next {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    font-size: 13px; font-weight: 700; padding: 10px 24px;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s; min-width: 140px; justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-next:hover:not(:disabled) { background: var(--accent2); transform: translateY(-1px); }
+  .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── RESULTS SCREEN ── */
+  .results-hero {
+    padding: 56px 0 44px;
+    border-bottom: 1px solid var(--border); margin-bottom: 48px;
+  }
+  .profile-banner {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px;
+    display: flex; gap: 32px; align-items: flex-start;
+    box-shadow: var(--shadow-md); position: relative; overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .profile-banner::before {
+    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+    border-radius: 16px 0 0 16px;
+  }
+  .profile-banner.conservative::before { background: linear-gradient(180deg, var(--green), rgba(5,150,105,0.2)); }
+  .profile-banner.moderate::before { background: linear-gradient(180deg, var(--yellow), rgba(217,119,6,0.2)); }
+  .profile-banner.aggressive::before { background: linear-gradient(180deg, var(--red), rgba(220,38,38,0.2)); }
+
+  .profile-score-ring {
+    flex-shrink: 0; position: relative; width: 96px; height: 96px;
+  }
+  .profile-score-ring svg { width: 96px; height: 96px; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 6; }
+  .ring-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dasharray 1s ease-out; }
+  .ring-text {
+    position: absolute; inset: 0; display: flex;
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .ring-pct { font-size: 18px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .ring-sub { font-size: 9px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+
+  .profile-info { flex: 1; }
+  .profile-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace; font-size: 8.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px; font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .profile-badge.conservative { background: var(--green-light); color: var(--green); border: 1px solid rgba(5,150,105,0.25); }
+  .profile-badge.moderate { background: var(--yellow-light); color: var(--yellow); border: 1px solid rgba(217,119,6,0.25); }
+  .profile-badge.aggressive { background: var(--red-light); color: var(--red); border: 1px solid rgba(220,38,38,0.25); }
+  .profile-name { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: var(--text); margin-bottom: 10px; }
+  .profile-desc { font-size: 14px; color: var(--text2); line-height: 1.75; margin-bottom: 16px; }
+  .score-meta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .score-pill {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* Characteristics & Recommendations */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+  .info-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 13px; padding: 24px 22px; box-shadow: var(--shadow);
+  }
+  .info-card-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1.5px solid var(--border);
+  }
+  .info-card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .info-card-badge {
+    font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em;
+    text-transform: uppercase; background: var(--accent-light);
+    color: var(--accent); padding: 2px 8px; border-radius: 20px;
+    margin-left: auto; border: 1px solid #bfdbfe; font-weight: 500;
+  }
+  .info-list { display: flex; flex-direction: column; gap: 9px; }
+  .info-item { display: flex; align-items: flex-start; gap: 10px; }
+  .info-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; }
+  .info-dot.conservative { background: var(--green); }
+  .info-dot.moderate { background: var(--yellow); }
+  .info-dot.aggressive { background: var(--red); }
+  .info-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* Platform recommendations */
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--border);
+  }
+  .section-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+  .section-badge {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; background: var(--accent-light);
+    color: var(--accent); padding: 3px 10px; border-radius: 20px; margin-left: auto;
+    border: 1px solid #bfdbfe; font-weight: 500;
+  }
+
+  .platforms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  .rec-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 13px; padding: 20px 18px;
+    transition: all 0.22s ease; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .rec-card::before {
+    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+    border-radius: 13px 0 0 13px;
+  }
+  .rec-card.risk-green::before { background: var(--green); }
+  .rec-card.risk-yellow::before { background: var(--yellow); }
+  .rec-card.risk-red::before { background: var(--red); }
+  .rec-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+  .rec-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; padding-left: 5px; }
+  .rec-logo {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: white; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0; box-shadow: var(--shadow);
+  }
+  .rec-logo img { width: 30px; height: 30px; object-fit: contain; }
+  .logo-fb { font-weight: 800; font-size: 16px; line-height: 1; }
+  .rec-name-wrap { flex: 1; }
+  .rec-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .rec-category { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .rec-why { font-size: 12px; font-style: italic; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding: 10px 5px 10px; margin-bottom: 8px; }
+  .rec-code {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 7px; padding: 7px 10px;
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    margin: 0 0 7px 5px;
+  }
+  .rec-code-label { font-size: 8.5px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; }
+  .rec-code-value { font-family: 'DM Mono', monospace; font-size: 11.5px; font-weight: 500; color: var(--accent); }
+  .copy-btn {
+    background: white; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 5px; padding: 2px 8px; font-size: 9.5px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif;
+  }
+  .copy-btn:hover { border-color: var(--accent2); color: var(--accent); background: var(--accent-light); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green); background: var(--green-light); }
+  .rec-btn {
+    display: flex; justify-content: center; align-items: center; gap: 5px;
+    background: var(--accent); color: white; border: none; border-radius: 7px;
+    padding: 8px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all 0.2s; margin: 0 0 0 5px;
+  }
+  .rec-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* CTA block */
+  .cta-block {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 16px; padding: 40px 44px;
+    box-shadow: var(--shadow-md); margin-bottom: 32px;
+    display: grid; grid-template-columns: 1fr auto; gap: 36px; align-items: center;
+  }
+  .cta-left h3 { font-size: 20px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .cta-left p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; }
+  .cta-actions { display: flex; flex-direction: column; gap: 10px; min-width: 160px; }
+  .cta-primary {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    background: white; color: var(--accent); font-weight: 700; font-size: 13px;
+    padding: 11px 20px; border-radius: 8px; text-decoration: none;
+    transition: all 0.2s; white-space: nowrap; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+  .cta-secondary {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    background: rgba(255,255,255,0.15); color: white; font-weight: 600; font-size: 13px;
+    padding: 11px 20px; border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+  .cta-secondary:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+  .restart-link { text-align: center; margin-top: 28px; }
+  .restart-link a {
+    color: var(--accent2); text-decoration: none; font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 5px; transition: opacity 0.2s;
+  }
+  .restart-link a:hover { opacity: 0.7; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .nav { padding: 0 16px; }
+    .container, .container-wide { padding: 0 16px 60px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .platforms-grid { grid-template-columns: 1fr; }
+    .profile-banner { flex-direction: column; gap: 20px; }
+    .cta-block { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; }
+    .cta-actions { flex-direction: row; }
+    h1 { font-size: 26px; }
+    .q-num { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-dot"></div>
+    Andrés · Finanzas &amp; Inversiones
+  </a>
+  <a href="index.html" class="nav-back">← Volver a plataformas</a>
+  <div class="nav-flag">🇨🇴</div>
+</nav>
+
+<!-- ══════════════ WELCOME SCREEN ══════════════ -->
+<div id="welcomeScreen" class="screen active">
+  <div class="container">
+    <div class="welcome-hero fade-up">
+      <div class="eyebrow">Herramienta de perfilamiento</div>
+      <h1>Descubre tu <span>Perfil de Inversión</span></h1>
+      <p class="hero-desc">Responde 10 preguntas breves y obtén una lectura clara de tu perfil de riesgo. Al final te mostraré qué plataformas de mi lista se ajustan mejor a ti.</p>
+    </div>
+
+    <div class="feature-grid fade-up-2">
+      <div class="feature-card">
+        <div class="feature-num">01 ·</div>
+        <div class="feature-title">Rápido y Sencillo</div>
+        <div class="feature-desc">Menos de 5 minutos. 10 preguntas sobre tus objetivos, horizonte y tolerancia al riesgo.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02 ·</div>
+        <div class="feature-title">Análisis Personalizado</div>
+        <div class="feature-desc">Un perfil claro: Conservador, Moderado o Crecimiento, con una puntuación calculada.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03 ·</div>
+        <div class="feature-title">Plataformas Recomendadas</div>
+        <div class="feature-desc">Al terminar verás cuáles de las plataformas que uso se adaptan a tu perfil, con sus códigos de referido.</div>
+      </div>
+    </div>
+
+    <div class="disclaimer fade-up-2">
+      <span>⚠️</span>
+      <span><strong>Aviso:</strong> Este cuestionario es orientativo, no constituye asesoría financiera formal. Cada persona debe evaluar su situación particular antes de invertir.</span>
+    </div>
+
+    <div class="fade-up-3">
+      <button class="btn-primary" onclick="startQuiz()">
+        Comenzar cuestionario
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ QUESTION SCREEN ══════════════ -->
+<div id="questionScreen" class="screen">
+  <div class="q-progress-bar">
+    <div class="q-progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="container">
+    <div class="q-header">
+      <div class="q-meta">
+        <span class="q-num" id="qNum">01</span>
+        <span class="q-of">de <span id="qTotal">10</span> preguntas</span>
+      </div>
+      <div class="q-text" id="qText">Pregunta</div>
+    </div>
+
+    <div class="options-list" id="optionsList"></div>
+
+    <div class="q-footer">
+      <span class="q-footer-hint">Selecciona la opción que mejor te describa</span>
+      <button class="btn-next" id="btnNext" onclick="nextQ()" disabled>
+        <span id="btnNextLabel">Siguiente</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ RESULTS SCREEN ══════════════ -->
+<div id="resultsScreen" class="screen">
+  <div class="container-wide">
+    <div class="results-hero fade-up">
+      <div class="eyebrow">Resultados</div>
+      <h1>Tu <span>Perfil de Inversión</span></h1>
+      <p class="hero-desc">Basado en tus respuestas, aquí está tu análisis y las plataformas que más se adaptan a ti.</p>
+    </div>
+
+    <!-- Profile Banner -->
+    <div class="profile-banner fade-up" id="profileBanner">
+      <div class="profile-score-ring">
+        <svg viewBox="0 0 96 96">
+          <circle class="ring-bg" cx="48" cy="48" r="42"/>
+          <circle class="ring-fill" id="ringFill" cx="48" cy="48" r="42" stroke-dasharray="0 263.9"/>
+        </svg>
+        <div class="ring-text">
+          <div class="ring-pct" id="ringPct">0%</div>
+          <div class="ring-sub">Score</div>
+        </div>
+      </div>
+      <div class="profile-info">
+        <div class="profile-badge" id="profileBadge">Perfil</div>
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-desc" id="profileDesc">—</div>
+        <div class="score-meta" id="scoreMeta"></div>
+      </div>
+    </div>
+
+    <!-- Characteristics + Recommendations -->
+    <div class="two-col fade-up-2">
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title">Características de tu Perfil</div>
+          <span class="info-card-badge">Perfil</span>
+        </div>
+        <div class="info-list" id="charList"></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title">Instrumentos Sugeridos</div>
+          <span class="info-card-badge">General</span>
+        </div>
+        <div class="info-list" id="recList"></div>
+      </div>
+    </div>
+
+    <!-- Platform Recommendations -->
+    <div class="section-header fade-up-2">
+      <div class="section-title">Plataformas Recomendadas para ti</div>
+      <span class="section-badge" id="platformBadge">Según tu perfil</span>
+    </div>
+    <div class="platforms-grid fade-up-2" id="platformsGrid"></div>
+
+    <!-- CTA -->
+    <div class="cta-block fade-up-3">
+      <div class="cta-left">
+        <h3>¿Quieres ver todas las plataformas?</h3>
+        <p>En mi página principal comparto las 9 plataformas que uso con sus códigos de referido, descripción detallada y montos mínimos recomendados.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="index.html" class="cta-primary">Ver plataformas →</a>
+        <button class="cta-secondary" onclick="restartQuiz()">↺ Repetir test</button>
+      </div>
+    </div>
+
+    <div class="restart-link">
+      <a href="#" onclick="restartQuiz(); return false;">← Volver al inicio y repetir el cuestionario</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { q: '¿Cuál es tu objetivo principal al invertir?', opts: [
+    { t: 'Preservar mi capital y evitar pérdidas', v: 1 },
+    { t: 'Crecimiento moderado con algo de seguridad', v: 2 },
+    { t: 'Maximizar retornos aunque implique volatilidad', v: 3 }
+  ]},
+  { q: '¿Cuánto tiempo estás dispuesto a mantener tu inversión?', opts: [
+    { t: 'Menos de 1 año — necesito liquidez', v: 1 },
+    { t: 'Entre 1 y 5 años', v: 2 },
+    { t: 'Más de 5 años — pienso en largo plazo', v: 3 }
+  ]},
+  { q: 'Si el mercado cae un 20% en un mes, ¿qué harías?', opts: [
+    { t: 'Vender para evitar pérdidas mayores', v: 1 },
+    { t: 'Mantener mis posiciones sin cambios', v: 2 },
+    { t: 'Aprovechar y comprar más a mejor precio', v: 3 }
+  ]},
+  { q: '¿Cuál es tu experiencia con inversiones?', opts: [
+    { t: 'Principiante — prefiero algo simple y seguro', v: 1 },
+    { t: 'Intermedio — conozco acciones y fondos', v: 2 },
+    { t: 'Avanzado — manejo portafolios activamente', v: 3 }
+  ]},
+  { q: '¿Cómo describes tu situación financiera actual?', opts: [
+    { t: 'Necesito acceder a mi dinero con frecuencia', v: 1 },
+    { t: 'Tengo ahorros pero también gastos regulares', v: 2 },
+    { t: 'Tengo capital disponible sin necesidad inmediata', v: 3 }
+  ]},
+  { q: '¿Cómo reaccionas emocionalmente ante la volatilidad del mercado?', opts: [
+    { t: 'Me genera mucha ansiedad y afecta mis decisiones', v: 1 },
+    { t: 'Me preocupa, pero no tomo decisiones impulsivas', v: 2 },
+    { t: 'No me preocupa — es parte natural del mercado', v: 3 }
+  ]},
+  { q: '¿Qué porcentaje de tus ahorros estás dispuesto a invertir?', opts: [
+    { t: 'Menos del 20%', v: 1 },
+    { t: 'Entre el 20% y el 50%', v: 2 },
+    { t: 'Más del 50%', v: 3 }
+  ]},
+  { q: '¿Tienes deudas significativas en este momento?', opts: [
+    { t: 'Sí, tengo deudas importantes que me preocupan', v: 1 },
+    { t: 'Tengo algunas deudas pero son manejables', v: 2 },
+    { t: 'No tengo deudas o son mínimas', v: 3 }
+  ]},
+  { q: '¿Cuánto tiempo puedes dedicar a revisar tus inversiones?', opts: [
+    { t: 'Prefiero algo automático que no requiera seguimiento', v: 1 },
+    { t: 'Puedo revisar una o dos veces por mes', v: 2 },
+    { t: 'Sigo los mercados regularmente y me gusta analizar', v: 3 }
+  ]},
+  { q: '¿Cuál es tu objetivo financiero a largo plazo?', opts: [
+    { t: 'Seguridad y protección del capital', v: 1 },
+    { t: 'Equilibrio entre seguridad y crecimiento', v: 2 },
+    { t: 'Crecimiento agresivo y acumulación de riqueza', v: 3 }
+  ]}
+];
+
+const PROFILES = {
+  conservative: {
+    label: 'Conservador',
+    cls: 'conservative',
+    ringColor: '#059669',
+    desc: 'Priorizas la seguridad y la preservación de capital. Prefieres rendimientos predecibles aunque sean más bajos, y toleras poco la volatilidad. Ideal para empezar con pasos firmes.',
+    chars: ['Baja tolerancia al riesgo', 'Preferencia por activos seguros y predecibles', 'Necesitas acceso frecuente a tu capital', 'Prioridad: proteger lo que tienes'],
+    recs: ['Fondos de inversión colectiva (FIC)', 'Depósitos a plazo y CDTs', 'Ahorro en dólares digitales (USDC)', 'Cuentas de alto rendimiento'],
+    platforms: [
+      { name: 'Tyba', cat: 'Fondos de Inversión Colectiva', logo: 'https://logo.clearbit.com/tyba.com.co', risk: 'risk-green', why: 'FIC conservadores con respaldo de Credicorp Capital. Ideal para dar el primer paso.', codeLabel: 'Código de referido', code: 'AAL985239', url: 'https://tyba.com.co/', bonus: '$10,000 Tybs al invertir' },
+      { name: 'Littio', cat: 'Ahorro en Dólares Digitales', logo: 'https://logo.clearbit.com/littio.com', risk: 'risk-green', why: 'Dolariza tus ahorros con USDC. Sin complicaciones, con tarjeta incluida para gastos.', codeLabel: 'Código de referido', code: 'XMGC', url: 'https://www.littio.com', bonus: '$10 USDC al depositar' },
+      { name: 'RappiCuenta', cat: 'Cuenta de Ahorros · 9% E.A.', logo: 'https://logo.clearbit.com/rappipay.co', risk: 'risk-green', why: '9% E.A. en Bolsillos, sin cuota de manejo. Perfecto si aún estás pagando comisiones en tu banco.', codeLabel: 'Código de referido', code: 'andres442121', url: 'https://www.rappipay.co/rappicuenta/', bonus: 'Hasta $100,000 COP' }
+    ]
+  },
+  moderate: {
+    label: 'Moderado',
+    cls: 'moderate',
+    ringColor: '#d97706',
+    desc: 'Buscas un equilibrio entre crecimiento y seguridad. Aceptas cierta volatilidad si el potencial de retorno lo justifica. Tienes paciencia para el mediano plazo.',
+    chars: ['Tolerancia moderada al riesgo', 'Horizonte de inversión de 1 a 5 años', 'Equilibrio entre seguridad y crecimiento', 'Flexibilidad para ajustar estrategia'],
+    recs: ['Carteras diversificadas acciones/bonos', 'ETFs temáticos e indexados', 'Copy trading con inversores experimentados', 'Fondos balanceados internacionales'],
+    platforms: [
+      { name: 'Insights', cat: 'ETFs Temáticos · Protegido SIPC', logo: 'https://logo.clearbit.com/insightswm.com', risk: 'risk-yellow', why: 'ETFs de tecnología, energía limpia, salud. Regulada y asegurada por el SIPC de EE.UU.', codeLabel: 'Código de referido', code: 'AA9737', url: 'https://www.insightswm.com/', bonus: '$10 USD al invertir' },
+      { name: 'eToro', cat: 'Copy Trading · Acciones · ETFs', logo: 'https://logo.clearbit.com/etoro.com', risk: 'risk-yellow', why: 'Copy trading: copias automáticamente a traders con track record comprobado. Sin complicaciones.', codeLabel: 'Acceso', code: 'Disponible en Colombia', url: 'https://www.etoro.com', bonus: 'Desde $100 USD' },
+      { name: 'Hapi', cat: 'Acciones USA · Sin comisiones', logo: 'https://logo.clearbit.com/hapi.com', risk: 'risk-red', why: 'Fracciones de acciones del S&P 500 desde Colombia. Sin comisiones, perfecto para DCA.', codeLabel: 'Código de referido', code: 'ANDALA21', url: 'https://app.hapi.trade/rewards?code=ANDALA21', bonus: '$10 USD al abrir cuenta' }
+    ]
+  },
+  aggressive: {
+    label: 'Crecimiento',
+    cls: 'aggressive',
+    ringColor: '#dc2626',
+    desc: 'Buscas maximizar retornos a largo plazo y aceptas la volatilidad como parte del proceso. Tienes experiencia o disposición a aprender análisis de activos individuales.',
+    chars: ['Alta tolerancia al riesgo', 'Horizonte de inversión largo (+5 años)', 'Capacidad para resistir caídas sin pánico', 'Enfoque en acumulación de riqueza'],
+    recs: ['Acciones individuales de crecimiento', 'Mercado colombiano (BVC)', 'Criptomonedas (porción pequeña del portafolio)', 'ETFs de sectores de alto crecimiento'],
+    platforms: [
+      { name: 'Trii', cat: 'Acciones Colombianas · BVC', logo: 'https://logo.clearbit.com/trii.com.co', risk: 'risk-red', why: 'La mejor opción para acciones colombianas. Comisiones mínimas y apertura 100% digital.', codeLabel: 'Código de referido', code: 'aa_4m59', url: 'https://trii.co/?referrals=aa_4m59', bonus: '$5,000 COP en tu primera inversión' },
+      { name: 'Hapi', cat: 'Acciones USA · Sin comisiones', logo: 'https://logo.clearbit.com/hapi.com', risk: 'risk-red', why: 'Fracciones de acciones del S&P 500 desde Colombia. Sin comisiones ni monto mínimo.', codeLabel: 'Código de referido', code: 'ANDALA21', url: 'https://app.hapi.trade/rewards?code=ANDALA21', bonus: '$10 USD al abrir cuenta' },
+      { name: 'XTB', cat: 'Acciones Internacionales · ETFs', logo: 'https://logo.clearbit.com/xtb.com', risk: 'risk-red', why: 'Miles de activos, sin comisión hasta $100K USD/mes. Plataforma profesional regulada en Europa.', codeLabel: 'Acceso', code: 'Disponible en Colombia', url: 'https://www.xtb.com', bonus: 'Sin comisión hasta $100K USD/mes' },
+      { name: 'Binance', cat: 'Criptomonedas · Exchange #1 Mundial', logo: 'https://logo.clearbit.com/binance.com', risk: 'risk-red', why: 'Para la porción de cripto en tu portafolio. Spot con las comisiones más bajas del mercado.', codeLabel: 'Código 50% descuento', code: '94547225', url: 'https://accounts.binance.com/en/register?ref=94547225', bonus: '50% dto. en comisiones' }
+    ]
+  }
+};
+
+let curQ = 0, answers = [], selVal = null;
+const total = QUESTIONS.length;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  curQ = 0; answers = []; selVal = null;
+  document.getElementById('qTotal').textContent = total;
+  showScreen('questionScreen');
+  loadQ();
+}
+
+function loadQ() {
+  const q = QUESTIONS[curQ];
+  const pct = ((curQ + 1) / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qNum').textContent = String(curQ + 1).padStart(2, '0');
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('btnNextLabel').textContent = curQ === total - 1 ? 'Ver mi perfil' : 'Siguiente';
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  q.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<div class="option-radio"><div class="option-radio-dot"></div></div><span class="option-label">${opt.t}</span>`;
+    btn.onclick = () => {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selVal = opt.v;
+      document.getElementById('btnNext').disabled = false;
+    };
+    list.appendChild(btn);
+  });
+  selVal = null;
+  document.getElementById('btnNext').disabled = true;
+}
+
+function nextQ() {
+  if (selVal === null) return;
+  answers.push(selVal);
+  if (curQ < total - 1) { curQ++; loadQ(); }
+  else { showResults(); }
+}
+
+function showResults() {
+  const sum = answers.reduce((a, b) => a + b, 0);
+  const avg = sum / answers.length;
+  let profKey, pct;
+  if (avg <= 1.67) { profKey = 'conservative'; pct = Math.round((avg / 1.67) * 100); }
+  else if (avg <= 2.33) { profKey = 'moderate'; pct = Math.round(((avg - 1.67) / 0.66) * 100); }
+  else { profKey = 'aggressive'; pct = Math.round(((avg - 2.33) / 0.67) * 100); }
+  pct = Math.max(10, Math.min(100, pct));
+
+  const p = PROFILES[profKey];
+  const banner = document.getElementById('profileBanner');
+  banner.className = 'profile-banner ' + p.cls;
+
+  const ring = document.getElementById('ringFill');
+  const circum = 2 * Math.PI * 42;
+  setTimeout(() => {
+    ring.style.strokeDasharray = (pct / 100 * circum) + ' ' + circum;
+    ring.style.stroke = p.ringColor;
+  }, 300);
+  document.getElementById('ringPct').textContent = pct + '%';
+  document.getElementById('ringPct').style.color = p.ringColor;
+
+  const badge = document.getElementById('profileBadge');
+  badge.textContent = '● ' + p.label;
+  badge.className = 'profile-badge ' + p.cls;
+
+  document.getElementById('profileName').textContent = 'Perfil ' + p.label;
+  document.getElementById('profileDesc').textContent = p.desc;
+
+  const meta = document.getElementById('scoreMeta');
+  meta.innerHTML = `<span class="score-pill">Puntuación: ${sum}/${total * 3}</span><span class="score-pill">Promedio: ${avg.toFixed(1)}/3.0</span>`;
+
+  const charList = document.getElementById('charList');
+  charList.innerHTML = '';
+  p.chars.forEach(c => {
+    charList.innerHTML += `<div class="info-item"><div class="info-dot ${p.cls}"></div><span class="info-text">${c}</span></div>`;
+  });
+
+  const recList = document.getElementById('recList');
+  recList.innerHTML = '';
+  p.recs.forEach(r => {
+    recList.innerHTML += `<div class="info-item"><div class="info-dot ${p.cls}"></div><span class="info-text">${r}</span></div>`;
+  });
+
+  document.getElementById('platformBadge').textContent = 'Perfil ' + p.label;
+
+  const grid = document.getElementById('platformsGrid');
+  grid.innerHTML = '';
+  p.platforms.forEach(pl => {
+    const noCode = pl.code === 'Disponible en Colombia';
+    const codeBlock = noCode
+      ? `<div class="rec-code"><div><div class="rec-code-label">${pl.codeLabel}</div><div class="rec-code-value">${pl.code}</div></div></div>`
+      : `<div class="rec-code"><div><div class="rec-code-label">${pl.codeLabel}</div><div class="rec-code-value">${pl.code}</div></div><button class="copy-btn" onclick="copyCode(this,'${pl.code}')">Copiar</button></div>`;
+
+    grid.innerHTML += `
+      <div class="rec-card ${pl.risk}">
+        <div class="rec-header">
+          <div class="rec-logo"><img src="${pl.logo}" alt="${pl.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'logo-fb\\' style=\\'color:var(--accent)\\'>${pl.name[0]}</span>'"></div>
+          <div class="rec-name-wrap">
+            <div class="rec-name">${pl.name}</div>
+            <div class="rec-category">${pl.cat}</div>
+          </div>
+        </div>
+        <div class="rec-why">"${pl.why}"</div>
+        ${codeBlock}
+        <a href="${pl.url}" target="_blank" rel="noopener noreferrer" class="rec-btn">Abrir cuenta →</a>
+      </div>`;
+  });
+
+  showScreen('resultsScreen');
+}
+
+function copyCode(btn, code) {
+  const fb = () => { const el = document.createElement('textarea'); el.value = code; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); };
+  try { navigator.clipboard.writeText(code).catch(fb); } catch(e) { fb(); }
+  btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+}
+
+function restartQuiz() { showScreen('welcomeScreen'); }
+</script>
+</body>
+</html>
